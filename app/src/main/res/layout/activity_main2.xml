@@ -48,5 +48,18 @@
             android:textSize="12sp"
             android:textColor="@drawable/main_bottom_txt_selector"
             android:drawableTop="@drawable/main_my_selector"/>
+        <RadioButton
+            android:id="@+id/rb_my_news"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:background="@null"
+            android:gravity="center"
+            android:drawablePadding="4dp"
+            android:text="@string/main_news"
+            android:textSize="12sp"
+            android:textColor="@drawable/main_bottom_txt_selector"
+            android:drawableTop="@drawable/main_my_selector"/>
     </RadioGroup>
 </LinearLayout>

@@ -202,7 +202,7 @@
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
                 android:layout_below="@id/buy_layout"
-                android:text="买入"
+                android:text="买入呀"
                 android:background="@drawable/shape_btn_red_selector"
                 android:textColor="@color/main_text_color"/>
         </RelativeLayout>

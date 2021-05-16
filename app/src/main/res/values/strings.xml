@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">Mystock</string>
+    <string name="app_name">智投资</string>
     <string name="main_page">首页</string>
     <string name="main_my">我的</string>
+    <string name="main_news">新闻</string>
     <string name="login">登陆</string>
     <string name="search">搜索</string>
     <string name="register">注册</string>
