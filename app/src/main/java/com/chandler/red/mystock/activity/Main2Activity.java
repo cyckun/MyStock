@@ -13,6 +13,7 @@ import com.chandler.red.mystock.R;
 import com.chandler.red.mystock.adapter.MainPagerAdapter;
 import com.chandler.red.mystock.fragment.MainFragment;
 import com.chandler.red.mystock.fragment.MyFragment;
+import com.chandler.red.mystock.fragment.NewsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,8 @@ public class Main2Activity extends AppCompatActivity implements RadioGroup.OnChe
     RadioButton rbMainPage;
     @BindView(R.id.rb_my_main)
     RadioButton rbMyMain;
+    @BindView((R.id.rb_my_news))
+    RadioButton rbNewsMain;
     @BindView(R.id.radio_group_main)
     RadioGroup radioGroupMain;
     @BindView(R.id.main_view_pager)
@@ -34,6 +37,7 @@ public class Main2Activity extends AppCompatActivity implements RadioGroup.OnChe
     protected List<Fragment> fragLists;
     private MainFragment mainFragment;
     private MyFragment myFragment;
+    private NewsFragment newsFragment;
     private PagerAdapter pagerAdapter;
     private int position;
 
@@ -51,8 +55,10 @@ public class Main2Activity extends AppCompatActivity implements RadioGroup.OnChe
         fragLists = new ArrayList<>();
         mainFragment = new MainFragment();
         myFragment = new MyFragment();
+        newsFragment = new NewsFragment();
         fragLists.add(mainFragment);
         fragLists.add(myFragment);
+        fragLists.add(newsFragment);
         pagerAdapter = new MainPagerAdapter(getSupportFragmentManager(),fragLists);
         mainViewPager.setAdapter(pagerAdapter);
         mainViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -95,6 +101,10 @@ public class Main2Activity extends AppCompatActivity implements RadioGroup.OnChe
                 break;
             case R.id.rb_my_main:
                 mainViewPager.setCurrentItem(1);
+                break;
+
+            case R.id.rb_my_news:
+                mainViewPager.setCurrentItem(2);
                 break;
         }
     }
