@@ -8,17 +8,8 @@
         android:layout_width="match_parent"
         android:paddingBottom="5dp"
         android:layout_height="wrap_content">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/main_bg_grey"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/main_bg_black_light"/>
         <LinearLayout
-            android:id="@+id/my_operate_layout"
+            android:id="@+id/my_news_layout"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -46,6 +37,14 @@
                 android:background="@drawable/text_row_bg"
                 android:text="卖出"
                 android:textColor="@color/main_text_color"/>
+
+            <Button
+                android:id="@+id/btn_news"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="getnews"
+                android:text="获取" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
