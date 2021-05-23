@@ -25,18 +25,6 @@
                 android:background="@drawable/text_row_bg"
                 android:text="最新资讯"
                 android:textColor="@color/main_text_color"/>
-            <TextView
-                android:id="@+id/my_sell"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="15dp"
-                android:textSize="18sp"
-                android:gravity="center"
-                android:clickable="true"
-                android:background="@drawable/text_row_bg"
-                android:text="卖出"
-                android:textColor="@color/main_text_color"/>
 
             <Button
                 android:id="@+id/btn_news"

@@ -108,14 +108,4 @@ public class NewsFragment extends BaseFragment {
         }
     }
 
-    public void getnews(View view) {
-        System.out.println("stop here");
-        Intent intent = new Intent(getActivity(), DisplayMessageActivity.class);
-
-
-        // EditText editText = (EditText) findViewById(R.id.editText);
-        String message = "start display";
-        intent.putExtra(EXTRA_MESSAGE, message);
-        Objects.requireNonNull(getActivity()).startActivityForResult(intent, 1);
-    }
 }
