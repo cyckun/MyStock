@@ -8,6 +8,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
+import java.util.Iterator;
 
 
 public class HttpRequest {
@@ -123,6 +124,49 @@ public class HttpRequest {
             }
             return result;
         }
+
+        // 20220630 update;
+        public static String sendGet(String url, String param, Map<String, String> requestProperty) {
+            String result = "";
+            BufferedReader in = null;
+            try {
+                String urlNameString = url + "?" + param;
+                URL realUrl = new URL(urlNameString);
+                // 打开和URL之间的连接
+                URLConnection connection = realUrl.openConnection();
+                // 设置通用的请求属性
+                Iterator<Map.Entry<String, String>> it = requestProperty.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry<String, String> entry = it.next();
+                    connection.setRequestProperty(entry.getKey(), entry.getValue());
+                }
+                // 建立实际的连接
+                connection.connect();
+                // 获取所有响应头字段
+                Map<String, List<String>> map = connection.getHeaderFields();
+                // 定义 BufferedReader输入流来读取URL的响应
+                in = new BufferedReader(new InputStreamReader(
+                        connection.getInputStream()));
+                String line;
+                while ((line = in.readLine()) != null) {
+                    result += line;
+                }
+            } catch (Exception e) {
+                System.out.println("发送GET请求出现异常！" + e);
+                e.printStackTrace();
+            } finally {
+                // 使用finally块来关闭输入流
+                try {
+                    if (in != null) {
+                        in.close();
+                    }
+                } catch (Exception e2) {
+                    e2.printStackTrace();
+                }
+            }
+            return result;
+        }
+
         public static void main(String[] args) {
             //发送 GET 请求
             String s=HttpRequest.sendGet("https://datareco.bytedance.net/security/datareco/index", "");

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.chandler.red.mystock.R;
 import com.chandler.red.mystock.activity.DisplayMessageActivity;
+import com.chandler.red.mystock.activity.DisplayPriceActivity;
 import com.chandler.red.mystock.activity.ExchangeActivity;
 import com.chandler.red.mystock.activity.ImageShowActivity;
 import com.chandler.red.mystock.activity.LoginActivity;
@@ -88,6 +89,13 @@ public class NewsFragment extends BaseFragment {
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), DisplayMessageActivity.class);
+                startActivity(intent);
+            }
+        });
+        Button btn_price = (Button)view.findViewById(R.id.btn_real);
+        btn_price.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DisplayPriceActivity.class);
                 startActivity(intent);
             }
         });
