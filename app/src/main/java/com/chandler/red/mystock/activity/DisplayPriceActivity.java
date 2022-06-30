@@ -5,76 +5,20 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.widget.EditText;
 import android.widget.TextView;
-
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.Service;
 import android.content.Context;
-
-import java.util.Random;
 
 import com.chandler.red.mystock.BaseActivity;
 import com.chandler.red.mystock.HttpRequest;
 import com.chandler.red.mystock.R;
 import com.chandler.red.mystock.fragment.NewsFragment;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
+import butterknife.BindView;
 
-// alarm class
-//public class VibrateUtil {
-//    /**
-//     * 让⼿机振动milliseconds毫秒
-//     */
-//    public static void vibrate(Context context, long milliseconds) {
-//        Vibrator vib = (Vibrator) context.getSystemService(Service.VIBRATOR_SERVICE);
-//        if (vib.hasVibrator()) {  //判断⼿机硬件是否有振动器
-//            vib.vibrate(milliseconds);
-//        }
-//    }
-//
-//    /**
-//     * 让⼿机以我们⾃⼰设定的pattern[]模式振动
-//     * long pattern[] = {1000, 20000, 10000, 10000, 30000};
-//     */
-//    public static void vibrate(Context context, long[] pattern, int repeat) {
-//        Vibrator vib = (Vibrator) context.getSystemService(Service.VIBRATOR_SERVICE);
-//        if (vib.hasVibrator()) {
-//            vib.vibrate(pattern, repeat);
-//        }
-//    }
-//    /**
-//     * 取消震动
-//     */
-//    public static void virateCancle(Context context) {
-//        //关闭震动
-//        Vibrator vib = (Vibrator) context.getSystemService(Service.VIBRATOR_SERVICE);
-//        vib.cancel();
-//    }
-//}
 
-class TipHelper {
-    // 播放默认铃声
-    // 返回Notification id
-    public static int PlaySound(final Context context) {
-        NotificationManager mgr = (NotificationManager) context
-                .getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification nt = new Notification();
-        nt.defaults = Notification.DEFAULT_SOUND;
-        int soundId = new Random(System.currentTimeMillis())
-                .nextInt(Integer.MAX_VALUE);
-        mgr.notify(soundId, nt);
-        return soundId;
-    }
-}
 class Alarm {
     public  void Ring(Context context) { //手机响铃
         //context 上下文
@@ -98,6 +42,9 @@ class Alarm {
 
 public class DisplayPriceActivity extends BaseActivity {
 
+    @BindView(R.id.stock_real_code)
+    EditText stockcode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,59 +57,67 @@ public class DisplayPriceActivity extends BaseActivity {
         TextView textView = findViewById(R.id.urlcontent);
         textView.setText(message);
 
-        //Get html content
+        Bundle bundle = getIntent().getExtras();
+        String stock_code = bundle.getString("stock_real_code");
+        String stock_code_string = String.format(stock_code);
+        String stock_price = bundle.getString("stock_real_price");
+        String stock_price_string = String.format(stock_price);
 
-        TextView textView1 = findViewById(R.id.urlcontent);
-        // textView1.setText("tstlslll");
-        ///*
+        System.out.printf("stock code = %s", stock_code_string);
+        System.out.printf("stock price = %s", stock_price_string);
+
+        //Get html content
         try {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        String url = "http://hq.sinajs.cn/list=sh600054";
-                        // String param = "company=0&MinsgType=a1";
-                        String param = "";
-                        HashMap<String, String> requestProperty = new HashMap<>();
-                        //  requestProperty.put("Host", "http://localhost:8081");
-                        requestProperty.put("Accept", "*/*");
-                        // requestProperty.put("Accept-Language", "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2");
-                        // requestProperty.put("Accept-Encoding", "gzip, deflate");
-                        requestProperty.put("Connection", "Keep-Alive");
-                        requestProperty.put("Referer", "http://finance.sina.com.cn");
-                        requestProperty.put("User-Agent", " Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0");
+                    for (int i = 0; i < 600; i++) {
+                        try {
+                            String url = "http://hq.sinajs.cn/list=" + stock_code_string;
+                            // String param = "company=0&MinsgType=a1";
+                            String param = "";
+                            HashMap<String, String> requestProperty = new HashMap<>();
+                            //  requestProperty.put("Host", "http://localhost:8081");
+                            requestProperty.put("Accept", "*/*");
+                            // requestProperty.put("Accept-Language", "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2");
+                            // requestProperty.put("Accept-Encoding", "gzip, deflate");
+                            requestProperty.put("Connection", "Keep-Alive");
+                            requestProperty.put("Referer", "http://finance.sina.com.cn");
+                            requestProperty.put("User-Agent", " Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0");
 
-                        String result= HttpRequest.sendGet(url, param, requestProperty);
-                        String decodeout = new String(result.getBytes("ISO-8859-1"), "UTF-8");
-                        // System.out.println( decodeout);
-                        String[] split = decodeout.split(",");
-                        System.out.println(split[3]);
+                            String result = HttpRequest.sendGet(url, param, requestProperty);
+                            String decodeout = new String(result.getBytes("ISO-8859-1"), "UTF-8");
+                            // System.out.println( decodeout);
+                            String[] split = decodeout.split(",");
+                            System.out.println(split[3]);
 
-                        // add alarm
-                        if (Float.valueOf(split[3]).floatValue() > 10.0) {
-                            // start alam
-                            Alarm tip = new Alarm();
-                            tip.Ring(getApplicationContext());
-                            tip.Vib(getApplicationContext());
-                        }
-                        // end alarm
-
-                        String finalS = "\n\n" + split[3];
-                        new Handler(getMainLooper()).post(new Runnable() {   // TODO: where this func should be..
-                            @Override
-                            public void run() {
-                                textView1.setText(finalS);
-
+                            // 核心策略
+                            if (Float.valueOf(split[3]).floatValue() < Float.valueOf(stock_price_string)) {
+                                // start alam
+                                Alarm tip = new Alarm();
+                                tip.Ring(getApplicationContext());
+                                tip.Vib(getApplicationContext());
                             }
-                        });
+                            // end alarm
 
-                    } catch (Exception err){
-                        textView1.setText((CharSequence) err);
+                            String finalS = "\n\n" + split[3];
+                            new Handler(getMainLooper()).post(new Runnable() {   // TODO: where this func should be..
+                                @Override
+                                public void run() {
+                                    textView.setText(finalS);
+
+                                }
+                            });
+                            Thread.sleep(1000 * 60); // sleep 1 minute.
+
+                        } catch (Exception err) {
+                            textView.setText((CharSequence) err);
+                        }
                     }
                 }
             }).start();
         } catch (Exception e) {
-            textView1.setText(e.toString());
+            textView.setText(e.toString());
         }
         //*/
     }

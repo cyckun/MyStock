@@ -4,22 +4,29 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.chandler.red.mystock.App;
 import com.chandler.red.mystock.R;
 import com.chandler.red.mystock.activity.DisplayMessageActivity;
 import com.chandler.red.mystock.activity.DisplayPriceActivity;
 import com.chandler.red.mystock.activity.ExchangeActivity;
+import com.chandler.red.mystock.activity.ForgetPwdActivity;
 import com.chandler.red.mystock.activity.ImageShowActivity;
 import com.chandler.red.mystock.activity.LoginActivity;
 import com.chandler.red.mystock.activity.MyInfoActivity;
+import com.chandler.red.mystock.db.StockBuisnessManager;
+import com.chandler.red.mystock.entity.AccStock;
 import com.chandler.red.mystock.entity.Stock;
 import com.chandler.red.mystock.presenter.StockPresenter;
+import com.chandler.red.mystock.util.EncryptUtil;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -35,6 +42,13 @@ import butterknife.OnClick;
  */
 public class NewsFragment extends BaseFragment {
 
+    @BindView(R.id.stock_real_code)
+    EditText  stockCode;
+    @BindView(R.id.stock_real_price)
+    EditText stockPrice;
+    @BindView(R.id.btn_metric)
+    Button btnMetric;
+
     public static final String EXTRA_MESSAGE = "";
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,6 +59,8 @@ public class NewsFragment extends BaseFragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private EditText tv_code;
+    private Button btn_metric;
 
     @BindView(R.id.my_news)
     TextView my_News;
@@ -92,16 +108,33 @@ public class NewsFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
-        Button btn_price = (Button)view.findViewById(R.id.btn_real);
-        btn_price.setOnClickListener(new View.OnClickListener() {
+
+        Button btn_metric = (Button)view.findViewById(R.id.btn_metric);
+        btn_metric.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), DisplayPriceActivity.class);
+                Bundle bundle = new Bundle();
+                // transfer EditText to DisplayPriceActivity;
+                EditText code = getActivity().findViewById(R.id.stock_real_code);
+                EditText price = getActivity().findViewById(R.id.stock_real_price);
+                bundle.putString("stock_real_code", code.getText().toString());
+                bundle.putString("stock_real_price", price.getText().toString());
+                intent.putExtras(bundle);
+                intent.setAction("android.intent.action.MAIN");
+                intent.addCategory("android.intent.category.HOME");
                 startActivity(intent);
             }
         });
         return view;
     }
 
+//    @OnClick({R.id.btn_metric})
+//    public void onViewClicked() {
+//        String stockcode = stockCode.getText().toString();
+//        String real_price  = stockPrice.getText().toString();
+//        if (stockcode == null) return ;
+//        System.out.println("test");
+//    }
 
     @OnClick({R.id.my_news, R.id.my_sell})
     public void onViewClicked(View view) {
