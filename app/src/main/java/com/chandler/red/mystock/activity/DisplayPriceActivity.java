@@ -129,6 +129,7 @@ public class DisplayPriceActivity extends BaseActivity {
                                     aim_result += "\n";
                                     System.out.println(split[real_price_index_cn]);
                                     // 核心策略
+                                    if (aim_price[j] == "") continue;  // In Case NULL, continue;
                                     if (Float.valueOf(split[real_price_index_cn]).floatValue() < Float.valueOf(aim_price[j])) {
                                         // start alam
                                         tip.Ring(getApplicationContext(), j);  // choose diff warning music;

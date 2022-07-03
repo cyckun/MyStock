@@ -14,6 +14,9 @@
     <color name="main_green_color">#32CD32</color>
     <color name="main_blue_color">#1E90FF</color>
     <color name="main_blue_color_light">#2FA0FF</color>
+    <color name="seashell">#FFF5EE</color><!--海贝色 -->
+    <color name="ivory">#FFFFF0</color><!--象牙色 -->
+    <color name="lightcyan">#E0FFFF</color><!--亮青色 -->
     <color name="_e1e4e9">#e1e4e9</color>
     <color name="_abb2bd">#abb2bd</color>
 </resources>
