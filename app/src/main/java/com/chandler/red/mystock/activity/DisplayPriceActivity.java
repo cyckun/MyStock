@@ -19,7 +19,6 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 
-
 class Alarm {
     public  void Ring(Context context, int loop) { //手机响铃
         //context 上下文
@@ -98,8 +97,16 @@ public class DisplayPriceActivity extends BaseActivity {
 
             int real_price_index_cn = 3;
             int real_price_index_hk = 6;
+            int real_price_index_gb = 1;   // xinlang api, note update.
+            int real_price_index = real_price_index_cn;
             int metric_onwork_time = 600;  // metric 10 hours = 600 minites;
 
+            // calculate index
+            // gb_ must only one code input; TODO: update here;
+            if (aim_code[0].contains("gb")) real_price_index = real_price_index_gb;
+            else if (aim_code[0].contains("hk")) real_price_index = real_price_index_hk;
+
+            int finalReal_price_index = real_price_index;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -124,13 +131,19 @@ public class DisplayPriceActivity extends BaseActivity {
                                 String decodeout = new String(result.getBytes("ISO-8859-1"), "UTF-8");
                                 // System.out.println( decodeout);
                                 String[] split = decodeout.split(",");
-                                if (split.length > real_price_index_cn) {   // get the price from Source;
-                                    aim_result += split[real_price_index_cn];
+                                if (split.length >= finalReal_price_index) {   // get the price from Source;
+                                    aim_result += split[finalReal_price_index];
                                     aim_result += "\n";
-                                    System.out.println(split[real_price_index_cn]);
+                                    System.out.println(split[finalReal_price_index]);
                                     // 核心策略
                                     if (aim_price[j] == "") continue;  // In Case NULL, continue;
-                                    if (Float.valueOf(split[real_price_index_cn]).floatValue() < Float.valueOf(aim_price[j])) {
+                                    try {
+                                        Float.valueOf(aim_price[j]);
+                                    } catch (Exception err) {
+                                        aim_result = "float value invalide";
+                                        continue;
+                                    }
+                                    if (Float.valueOf(split[finalReal_price_index]).floatValue() < Float.valueOf(aim_price[j])) {
                                         // start alam
                                         tip.Ring(getApplicationContext(), j);  // choose diff warning music;
                                         tip.Vib(getApplicationContext());
