@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.content.Context;
@@ -42,7 +43,7 @@ class Alarm {
         //raw是新建在/res下的文件夹，ls是raw文件下mp3文件
         player.start();
         try {
-            Thread.sleep(1 * 100);//响铃时间1s
+            Thread.sleep(1 * 1000);//响铃时间1s
         } catch (Exception e) {
         }
         player.stop();
@@ -66,6 +67,7 @@ public class DisplayPriceActivity extends BaseActivity {
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
         String message = intent.getStringExtra(NewsFragment.EXTRA_MESSAGE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); // never close screen.
 
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.urlcontent);
@@ -90,7 +92,7 @@ public class DisplayPriceActivity extends BaseActivity {
                 public void run() {
                     Alarm tip = new Alarm();
                     for (int i = 0; i < 600; i++) {
-                        tip.Di(getApplicationContext());
+                        // tip.Di(getApplicationContext());
                         try {
                             String url = "http://hq.sinajs.cn/list=" + stock_code_string;
                             // String param = "company=0&MinsgType=a1";
