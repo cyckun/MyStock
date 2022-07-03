@@ -21,9 +21,15 @@ import butterknife.BindView;
 
 
 class Alarm {
-    public  void Ring(Context context) { //手机响铃
+    public  void Ring(Context context, int loop) { //手机响铃
         //context 上下文
-        MediaPlayer player = MediaPlayer.create(context, R.raw.love);
+        int res = 0;
+        if (loop%2 == 0) {
+            res = R.raw.soft;
+        } else {
+            res = R.raw.love;
+        }
+        MediaPlayer player = MediaPlayer.create(context, res);
         //raw是新建在/res下的文件夹，ls是raw文件下mp3文件
         player.start();
         try {
@@ -48,7 +54,6 @@ class Alarm {
         }
         player.stop();
     }
-
 
 }
 
@@ -91,45 +96,51 @@ public class DisplayPriceActivity extends BaseActivity {
             String[] aim_code = finalStock_code_string.split(";");
             String[] aim_price = stock_price_string.split(";");
 
+            int real_price_index_cn = 3;
+            int real_price_index_hk = 6;
+            int metric_onwork_time = 600;  // metric 10 hours = 600 minites;
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     Alarm tip = new Alarm();
-                    for (int i = 0; i < 600; i++) {
+                    // String param = "company=0&MinsgType=a1";
+                    String param = "";
+                    HashMap<String, String> requestProperty = new HashMap<>();
+                    //  requestProperty.put("Host", "http://localhost:8081");
+                    requestProperty.put("Accept", "*/*");
+                    // requestProperty.put("Accept-Language", "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2");
+                    // requestProperty.put("Accept-Encoding", "gzip, deflate");
+                    requestProperty.put("Connection", "Keep-Alive");
+                    requestProperty.put("Referer", "http://finance.sina.com.cn");
+                    requestProperty.put("User-Agent", " Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0");
+                    String aim_result = "";
+                    for (int i = 0; i < metric_onwork_time; i++) { // 600 minutes; 10 hour
                         // tip.Di(getApplicationContext());
                         try {
-
-                            // String param = "company=0&MinsgType=a1";
-                            String param = "";
-                            HashMap<String, String> requestProperty = new HashMap<>();
-                            //  requestProperty.put("Host", "http://localhost:8081");
-                            requestProperty.put("Accept", "*/*");
-                            // requestProperty.put("Accept-Language", "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2");
-                            // requestProperty.put("Accept-Encoding", "gzip, deflate");
-                            requestProperty.put("Connection", "Keep-Alive");
-                            requestProperty.put("Referer", "http://finance.sina.com.cn");
-                            requestProperty.put("User-Agent", " Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0");
-                            String aim_result = "";
                             for (int j = 0; j < aim_code.length; j++) {
                                 String url = "http://hq.sinajs.cn/list=" + aim_code[j];
                                 String result = HttpRequest.sendGet(url, param, requestProperty);
                                 String decodeout = new String(result.getBytes("ISO-8859-1"), "UTF-8");
                                 // System.out.println( decodeout);
                                 String[] split = decodeout.split(",");
-                                System.out.println(split[3]);
-                                aim_result += split[3];
-                                aim_result += "\n";
-
-                                // 核心策略
-                                if (Float.valueOf(split[3]).floatValue() < Float.valueOf(aim_price[j])) {
-                                    // start alam
-                                    tip.Ring(getApplicationContext());
-                                    tip.Vib(getApplicationContext());
+                                if (split.length > real_price_index_cn) {   // get the price from Source;
+                                    aim_result += split[real_price_index_cn];
+                                    aim_result += "\n";
+                                    System.out.println(split[real_price_index_cn]);
+                                    // 核心策略
+                                    if (Float.valueOf(split[real_price_index_cn]).floatValue() < Float.valueOf(aim_price[j])) {
+                                        // start alam
+                                        tip.Ring(getApplicationContext(), j);  // choose diff warning music;
+                                        tip.Vib(getApplicationContext());
+                                    }
+                                } else {
+                                    continue;
                                 }
                             }
 
                             // end alarm
-
+                            if (aim_result =="") aim_result = "no result";
                             String finalS = "\n\n" + aim_result;
                             new Handler(getMainLooper()).post(new Runnable() {   // TODO: where this func should be..
                                 @Override
@@ -140,7 +151,7 @@ public class DisplayPriceActivity extends BaseActivity {
                             Thread.sleep(1000 * 60); // sleep 1 minute.
 
                         } catch (Exception err) {
-                            textView.setText((CharSequence) err);
+                            textView.setText((CharSequence) err.toString());
                         }
                     }
                 }
