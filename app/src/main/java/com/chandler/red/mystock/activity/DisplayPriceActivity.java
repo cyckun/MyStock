@@ -27,14 +27,14 @@ class Alarm {
         //raw是新建在/res下的文件夹，ls是raw文件下mp3文件
         player.start();
         try {
-            Thread.sleep(15 * 1000);//响铃时间10s
+            Thread.sleep(10 * 1000);//响铃时间10s
         } catch (Exception e) {
         }
         player.stop();
     }
     public void Vib(Context context){  //手机震动
         Vibrator vibate = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        vibate.vibrate(5 * 1000);
+        vibate.vibrate(3 * 1000);
     }
 
     public  void Di(Context context) { //手机响铃
@@ -76,9 +76,9 @@ public class DisplayPriceActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         String stock_code = bundle.getString("stock_real_code");
         String stock_code_string = String.format(stock_code);
-//        if (stock_code_string == "") {
-//            stock_code_string = "sh600000";
-//        }
+        if (stock_code_string == "") {    // just for test;
+            stock_code_string = "sh600000";
+        }
         String stock_price = bundle.getString("stock_real_price");
         String stock_price_string = String.format(stock_price);
 
@@ -87,6 +87,10 @@ public class DisplayPriceActivity extends BaseActivity {
 
         //Get html content
         try {
+            String finalStock_code_string = stock_code_string;
+            String[] aim_code = finalStock_code_string.split(";");
+            String[] aim_price = stock_price_string.split(";");
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -94,7 +98,7 @@ public class DisplayPriceActivity extends BaseActivity {
                     for (int i = 0; i < 600; i++) {
                         // tip.Di(getApplicationContext());
                         try {
-                            String url = "http://hq.sinajs.cn/list=" + stock_code_string;
+
                             // String param = "company=0&MinsgType=a1";
                             String param = "";
                             HashMap<String, String> requestProperty = new HashMap<>();
@@ -105,23 +109,28 @@ public class DisplayPriceActivity extends BaseActivity {
                             requestProperty.put("Connection", "Keep-Alive");
                             requestProperty.put("Referer", "http://finance.sina.com.cn");
                             requestProperty.put("User-Agent", " Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0");
+                            String aim_result = "";
+                            for (int j = 0; j < aim_code.length; j++) {
+                                String url = "http://hq.sinajs.cn/list=" + aim_code[j];
+                                String result = HttpRequest.sendGet(url, param, requestProperty);
+                                String decodeout = new String(result.getBytes("ISO-8859-1"), "UTF-8");
+                                // System.out.println( decodeout);
+                                String[] split = decodeout.split(",");
+                                System.out.println(split[3]);
+                                aim_result += split[3];
+                                aim_result += "\n";
 
-                            String result = HttpRequest.sendGet(url, param, requestProperty);
-                            String decodeout = new String(result.getBytes("ISO-8859-1"), "UTF-8");
-                            // System.out.println( decodeout);
-                            String[] split = decodeout.split(",");
-                            System.out.println(split[3]);
-
-                            System.out.println(Float.valueOf(stock_price_string));
-                            // 核心策略
-                            if (Float.valueOf(split[3]).floatValue() < Float.valueOf(stock_price_string)) {
-                                // start alam
-                                tip.Ring(getApplicationContext());
-                                tip.Vib(getApplicationContext());
+                                // 核心策略
+                                if (Float.valueOf(split[3]).floatValue() < Float.valueOf(aim_price[j])) {
+                                    // start alam
+                                    tip.Ring(getApplicationContext());
+                                    tip.Vib(getApplicationContext());
+                                }
                             }
+
                             // end alarm
 
-                            String finalS = "\n\n" + split[3];
+                            String finalS = "\n\n" + aim_result;
                             new Handler(getMainLooper()).post(new Runnable() {   // TODO: where this func should be..
                                 @Override
                                 public void run() {
