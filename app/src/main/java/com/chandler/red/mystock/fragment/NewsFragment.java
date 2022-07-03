@@ -120,8 +120,8 @@ public class NewsFragment extends BaseFragment {
                 bundle.putString("stock_real_code", code.getText().toString());
                 bundle.putString("stock_real_price", price.getText().toString());
                 intent.putExtras(bundle);
-                intent.setAction("android.intent.action.MAIN");
-                intent.addCategory("android.intent.category.HOME");
+//                intent.setAction("android.intent.action.MAIN");
+//                intent.addCategory("android.intent.category.HOME");
                 startActivity(intent);
             }
         });

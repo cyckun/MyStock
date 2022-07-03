@@ -26,15 +26,29 @@ class Alarm {
         //raw是新建在/res下的文件夹，ls是raw文件下mp3文件
         player.start();
         try {
-            Thread.sleep(10 * 1000);//响铃时间10s
+            Thread.sleep(15 * 1000);//响铃时间10s
         } catch (Exception e) {
         }
         player.stop();
     }
     public void Vib(Context context){  //手机震动
         Vibrator vibate = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        vibate.vibrate(10 * 1000);
+        vibate.vibrate(5 * 1000);
     }
+
+    public  void Di(Context context) { //手机响铃
+        //context 上下文
+        MediaPlayer player = MediaPlayer.create(context, R.raw.di);
+        //raw是新建在/res下的文件夹，ls是raw文件下mp3文件
+        player.start();
+        try {
+            Thread.sleep(1 * 100);//响铃时间1s
+        } catch (Exception e) {
+        }
+        player.stop();
+    }
+
+
 }
 
 // end alarm class
@@ -60,6 +74,9 @@ public class DisplayPriceActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         String stock_code = bundle.getString("stock_real_code");
         String stock_code_string = String.format(stock_code);
+//        if (stock_code_string == "") {
+//            stock_code_string = "sh600000";
+//        }
         String stock_price = bundle.getString("stock_real_price");
         String stock_price_string = String.format(stock_price);
 
@@ -71,7 +88,9 @@ public class DisplayPriceActivity extends BaseActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    Alarm tip = new Alarm();
                     for (int i = 0; i < 600; i++) {
+                        tip.Di(getApplicationContext());
                         try {
                             String url = "http://hq.sinajs.cn/list=" + stock_code_string;
                             // String param = "company=0&MinsgType=a1";
@@ -91,10 +110,10 @@ public class DisplayPriceActivity extends BaseActivity {
                             String[] split = decodeout.split(",");
                             System.out.println(split[3]);
 
+                            System.out.println(Float.valueOf(stock_price_string));
                             // 核心策略
                             if (Float.valueOf(split[3]).floatValue() < Float.valueOf(stock_price_string)) {
                                 // start alam
-                                Alarm tip = new Alarm();
                                 tip.Ring(getApplicationContext());
                                 tip.Vib(getApplicationContext());
                             }
@@ -105,7 +124,6 @@ public class DisplayPriceActivity extends BaseActivity {
                                 @Override
                                 public void run() {
                                     textView.setText(finalS);
-
                                 }
                             });
                             Thread.sleep(1000 * 60); // sleep 1 minute.
