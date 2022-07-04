@@ -124,6 +124,7 @@ public class DisplayPriceActivity extends BaseActivity {
                     String aim_result = "";
                     for (int i = 0; i < metric_onwork_time; i++) { // 600 minutes; 10 hour
                         // tip.Di(getApplicationContext());
+                        if (i % 30 == 0)  aim_result = "";  // 定期删除，最多显示30条；
                         try {
                             for (int j = 0; j < aim_code.length; j++) {
                                 String url = "http://hq.sinajs.cn/list=" + aim_code[j];
