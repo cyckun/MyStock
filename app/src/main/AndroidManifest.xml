@@ -24,6 +24,10 @@
             android:label="@string/title_activity_display_price"
             android:theme="@style/AppTheme.StartingWindowTheme.NoActionBar" />
         <activity
+            android:name=".activity.DisplayWeekActivity"
+            android:label="DisplayWeekActivity"
+            android:theme="@style/AppTheme.StartingWindowTheme.NoActionBar" />
+        <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"

@@ -1,38 +1,23 @@
 package com.chandler.red.mystock.fragment;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.chandler.red.mystock.App;
 import com.chandler.red.mystock.R;
 import com.chandler.red.mystock.activity.DisplayMessageActivity;
 import com.chandler.red.mystock.activity.DisplayPriceActivity;
+import com.chandler.red.mystock.activity.DisplayWeekActivity;
 import com.chandler.red.mystock.activity.ExchangeActivity;
-import com.chandler.red.mystock.activity.ForgetPwdActivity;
-import com.chandler.red.mystock.activity.ImageShowActivity;
 import com.chandler.red.mystock.activity.LoginActivity;
-import com.chandler.red.mystock.activity.MyInfoActivity;
-import com.chandler.red.mystock.db.StockBuisnessManager;
-import com.chandler.red.mystock.entity.AccStock;
-import com.chandler.red.mystock.entity.Stock;
-import com.chandler.red.mystock.presenter.StockPresenter;
-import com.chandler.red.mystock.util.EncryptUtil;
-
-import java.util.ArrayList;
-import java.util.Objects;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -109,6 +94,13 @@ public class NewsFragment extends BaseFragment {
             }
         });
 
+        Button btn_week = (Button)view.findViewById(R.id.btn_week);
+        btn_week.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DisplayWeekActivity.class);
+                startActivity(intent);
+            }
+        });
         Button btn_metric = (Button)view.findViewById(R.id.btn_metric);
         btn_metric.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
