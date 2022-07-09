@@ -19,7 +19,12 @@
         android:id="@+id/urlcontent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="newscontent" />
+        android:text="newscontent"
+        android:enabled="true"
+        android:textIsSelectable="true"
+        android:focusable="true"
+        android:longClickable="true"
+        app:autoSizeTextType="uniform"/>
 
 </android.support.design.widget.CoordinatorLayout>
 </ScrollView>

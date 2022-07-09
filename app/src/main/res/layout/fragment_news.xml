@@ -35,15 +35,6 @@
             android:layout_margin="10dp"
             android:background="@drawable/shape_btn_red_selector"/>
 
-        <Button
-            android:id="@+id/btn_week"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="周评"
-            android:textColor="@color/main_text_color"
-            android:textSize="17sp"
-            android:layout_margin="10dp"
-            android:background="@drawable/shape_btn_red_selector"/>
         <LinearLayout
             android:id="@+id/my_news_layout"
             android:orientation="vertical"
@@ -57,7 +48,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/text_row_bg"
                 android:gravity="center"
-                android:padding="100dp"
+                android:padding="10dp"
                 android:text="最 新 资 讯"
                 android:textColor="@color/main_text_color"
                 android:textSize="18sp" />
@@ -70,6 +61,16 @@
                 android:layout_margin="10dp"
                 android:onClick="getnews"
                 android:text="获取"
+                android:background="@drawable/shape_btn_red_selector"/>
+
+            <Button
+                android:id="@+id/btn_week"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="周 评"
+                android:textColor="@color/main_text_color"
+                android:textSize="17sp"
+                android:layout_margin="10dp"
                 android:background="@drawable/shape_btn_red_selector"/>
         </LinearLayout>
     </LinearLayout>
