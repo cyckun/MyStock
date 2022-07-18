@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.chandler.red.mystock.R;
@@ -109,8 +110,26 @@ public class NewsFragment extends BaseFragment {
                 // transfer EditText to DisplayPriceActivity;
                 EditText code = getActivity().findViewById(R.id.stock_real_code);
                 EditText price = getActivity().findViewById(R.id.stock_real_price);
+                EditText price_upper_tx = getActivity().findViewById(R.id.stock_real_price_upper);
+                RadioButton price_upper = getActivity().findViewById(R.id.price_upper);
+                RadioButton price_base = getActivity().findViewById(R.id.price_base);
+                RadioButton default_code = getActivity().findViewById(R.id.default_code);
+                int upper_checked = 0, base_checked = 0, default_code_checked = 0;
+                if (price_upper.isChecked()) {
+                    upper_checked = 1;
+                }
+                if (price_base.isChecked()) {
+                    base_checked = 1;
+                }
+                if (default_code.isChecked()) {
+                    default_code_checked = 1;
+                }
                 bundle.putString("stock_real_code", code.getText().toString());
                 bundle.putString("stock_real_price", price.getText().toString());
+                bundle.putString("stock_real_price_upper", price_upper_tx.getText().toString());
+                bundle.putInt("price_upper", upper_checked);
+                bundle.putInt("price_base", base_checked);
+                bundle.putInt("default_code", default_code_checked);
                 intent.putExtras(bundle);
 //                intent.setAction("android.intent.action.MAIN");
 //                intent.addCategory("android.intent.category.HOME");

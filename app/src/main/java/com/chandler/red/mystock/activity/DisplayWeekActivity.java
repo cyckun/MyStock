@@ -45,7 +45,6 @@ public class DisplayWeekActivity extends BaseActivity {
                         @Override
                         public void run() {
                             textView.setText(finalS_new);
-
                         }
                     });
                 }

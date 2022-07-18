@@ -21,9 +21,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:hint="请输入价格"
+            android:hint="请输入下限价格"
             android:textColor="@color/main_text_color"
             android:textColorHint="@color/main_bg_grey"/>
+        <EditText
+            android:id="@+id/stock_real_price_upper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="请输入上限价格"
+            android:textColor="@color/main_text_color"
+            android:textColorHint="@color/main_bg_grey"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:paddingBottom="5dp"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/price_upper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="上限"
+            />
+        <RadioButton
+            android:id="@+id/price_base"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+            android:text="下限"
+            />
+        <RadioButton
+            android:id="@+id/default_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:text="默认"
+            />
+
+    </LinearLayout>
 
         <Button
             android:id="@+id/btn_metric"

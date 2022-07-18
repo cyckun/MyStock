@@ -81,10 +81,18 @@ public class DisplayPriceActivity extends BaseActivity {
         String stock_code = bundle.getString("stock_real_code");
         String stock_code_string = String.format(stock_code);
         if (stock_code_string == "") {    // just for test;
-            stock_code_string = "sh600000";
+            stock_code_string = "gb_didiy"; // 默认值
         }
         String stock_price = bundle.getString("stock_real_price");
         String stock_price_string = String.format(stock_price);
+        String stock_price_upper = bundle.getString("stock_real_price_upper");
+
+        // 220718 add radiobutton 暂未生效
+        int price_upper = bundle.getInt("price_upper");
+        int price_base = bundle.getInt("price_base");
+        int default_code = bundle.getInt("default_code");
+
+        System.out.printf("price_base = %s", price_base);
 
         System.out.printf("stock code = %s", stock_code_string);
         System.out.printf("stock price = %s", stock_price_string);
@@ -92,8 +100,9 @@ public class DisplayPriceActivity extends BaseActivity {
         //Get html content
         try {
             String finalStock_code_string = stock_code_string;
-            String[] aim_code = finalStock_code_string.split(";");
+            String[] aim_code = finalStock_code_string.split(";");  // 支持监控多只股票
             String[] aim_price = stock_price_string.split(";");
+            String[] aim_price_upper = stock_price_upper.split(";");
 
             int real_price_index_cn = 3;
             int real_price_index_hk = 6;
@@ -137,14 +146,23 @@ public class DisplayPriceActivity extends BaseActivity {
                                     aim_result += "\n";
                                     System.out.println(split[finalReal_price_index]);
                                     // 核心策略
-                                    if (aim_price[j] == "") continue;  // In Case NULL, continue;
+                                    if (aim_price[j] == "" && aim_price_upper[j] == "") continue;  // In Case NULL, continue;
                                     try {
                                         Float.valueOf(aim_price[j]);
                                     } catch (Exception err) {
                                         aim_result = "float value invalide";
                                         continue;
                                     }
+
+                                    // if (Float.valueOf(split[finalReal_price_index]).floatValue() < Float.valueOf(aim_price[j])) {
+                                    boolean is_warnning = false;
                                     if (Float.valueOf(split[finalReal_price_index]).floatValue() < Float.valueOf(aim_price[j])) {
+                                        is_warnning = true;
+                                    }
+                                    if (Float.valueOf(split[finalReal_price_index]).floatValue() > Float.valueOf(aim_price_upper[j])) {
+                                        is_warnning = true;
+                                    }
+                                    if (is_warnning) {
                                         // start alam
                                         tip.Ring(getApplicationContext(), j);  // choose diff warning music;
                                         tip.Vib(getApplicationContext());
