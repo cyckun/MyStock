@@ -48,14 +48,14 @@
             android:id="@+id/price_base"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="80dp"
+            android:layout_marginLeft="60dp"
             android:text="下限"
             />
         <RadioButton
             android:id="@+id/default_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
+            android:layout_marginLeft="90dp"
             android:text="默认"
             />
 
