@@ -16,6 +16,7 @@ import com.chandler.red.mystock.R;
 import com.chandler.red.mystock.fragment.NewsFragment;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import butterknife.BindView;
 
@@ -81,7 +82,7 @@ public class DisplayPriceActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         String stock_code = bundle.getString("stock_real_code");
         String stock_code_string = String.format(stock_code);
-        if (stock_code_string == "") {    // just for test;
+        if (stock_code_string.equals("")) {    // just for test;
             stock_code_string = "gb_didiy"; // 默认值
         }
 
@@ -151,6 +152,39 @@ public class DisplayPriceActivity extends BaseActivity {
                             aim_result[0] = "";  // 定期删除，最多显示30条；
                             aim_result[1] = "";
                         }
+                        // ADD huge result 20221107
+                        try {
+                            String s = HttpRequest.sendGet("http://182.92.166.12:5000/news/huge", "");
+                            if (!Objects.equals(s, "")) {
+                                // start alam
+                                tip.Ring(getApplicationContext(), 0);  // choose diff warning music;
+                                tip.Vib(getApplicationContext());
+
+                                // 显示代码
+                                TextView viewFinal;
+                                viewFinal = testView1;
+
+                                new Handler(getMainLooper()).post(new Runnable() {   // TODO: where this func should be..
+                                    @Override
+                                    public void run() {
+                                        viewFinal.setText(s);
+                                    }
+                                });
+                            }
+                        }
+                        catch (Exception err) {
+                            // 显示异常
+                            TextView viewFinal;
+                            viewFinal = testView1;
+                            new Handler(getMainLooper()).post(new Runnable() {   // TODO: where this func should be..
+                                @Override
+                                public void run() {
+                                    viewFinal.setText("err in huge");
+                                }
+                            });
+                        }
+
+                        // end huge
                         try {
                             for (int j = 0; j < aim_code.length; j++) {
                                 String url = "http://hq.sinajs.cn/list=" + aim_code[j];
@@ -163,7 +197,8 @@ public class DisplayPriceActivity extends BaseActivity {
                                     aim_result[j] += "\n";
                                     System.out.println(url_result_split[finalReal_price_index]);
                                     // 核心策略
-                                    if (aim_price[j] == "" && finalAim_price_upper[j] == "") continue;  // In Case NULL, continue;
+                                    if (Objects.equals(aim_price[j], "") && Objects.equals(finalAim_price_upper[j], "")) continue;  // In Case NULL, continue;
+                                    // 这里可以添加huge监控; 目前选择同时监控
                                     try {
                                         Float.valueOf(aim_price[j]);
                                     } catch (Exception err) {

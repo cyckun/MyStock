@@ -25,9 +25,7 @@ public class DisplayMessageActivity extends BaseActivity {
         textView.setText(message);
 
         //Get html content
-
         TextView textView1 = findViewById(R.id.urlcontent);
-        // textView1.setText("tstlslll");
         ///*
         try {
             new Thread(new Runnable() {
