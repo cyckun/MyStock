@@ -155,7 +155,7 @@ public class DisplayPriceActivity extends BaseActivity {
                         // ADD huge result 20221107
                         try {
                             String s = HttpRequest.sendGet("http://124.222.162.36:5000/news/huge", "");
-                            if (!Objects.equals(s, "")) {
+                            if (!Objects.equals(s, "") && default_code != 0) {
                                 // start alam
                                 tip.Ring(getApplicationContext(), 0);  // choose diff warning music;
                                 tip.Vib(getApplicationContext());
@@ -202,7 +202,7 @@ public class DisplayPriceActivity extends BaseActivity {
                                     try {
                                         Float.valueOf(aim_price[j]);
                                     } catch (Exception err) {
-                                        aim_result[j] = "float value invalide";
+                                        aim_result[j] = "float value invalid";
                                         continue;
                                     }
 
