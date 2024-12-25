@@ -169,7 +169,7 @@ public class HttpRequest {
 
         public static void main(String[] args) {
             //发送 GET 请求
-            String s=HttpRequest.sendGet("https://datareco.bytedance.net/security/datareco/index", "");
+            String s=HttpRequest.sendGet("http://124.222.162.36:5000/news/huge", "");
             System.out.println(s);
         }
 }

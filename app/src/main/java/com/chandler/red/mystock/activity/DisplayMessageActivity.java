@@ -31,7 +31,6 @@ public class DisplayMessageActivity extends BaseActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    // String s = HttpRequest.sendGet("https://datareco.bytedance.net/news/html", "");
                     String s = HttpRequest.sendGet("http://124.222.162.36:5000/news/html", "");
                     /*
                     int len = s.length();
