@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/lightcyan"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.design.widget.CoordinatorLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.DisplayMessageActivity">
@@ -34,13 +34,13 @@
             android:id="@+id/urlcontent1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="newscontent1"
+            android:layout_marginLeft="60dp"
             android:enabled="true"
-            android:textIsSelectable="true"
             android:focusable="true"
             android:longClickable="true"
-            android:layout_marginLeft="60dp"
-            app:autoSizeTextType="uniform"/>
+            android:text="Notice:"
+            android:textIsSelectable="true"
+            app:autoSizeTextType="uniform" />
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>
