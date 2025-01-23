@@ -7,7 +7,7 @@ public class StockImgApi {
     public static final String SH50 = "http://image.sinajs.cn/newchart/min/sh000016.gif";
     public static final String SH300 = "http://image.sinajs.cn/newchart/min/sh000300.gif";
     public static final String ZX = "http://image.sinajs.cn/newchart/min/sh000905.gif";
-    public static final String DQS = "http://image.sinajs.cn/newchart/usstock/min/dji.gif";
+    public static final String DQS = "http://124.222.162.36:5000/news/image/us_today";
     public static final String NSDQ = "http://image.sinajs.cn/newchart/usstock/min/ixic.gif";
     public static final String HK = "http://image.sinajs.cn/newchart/hk_stock/min/hsi.gif";
     public static final String DQSOY = "http://image.sinajs.cn/newchart/min/dqsoy.gif";
