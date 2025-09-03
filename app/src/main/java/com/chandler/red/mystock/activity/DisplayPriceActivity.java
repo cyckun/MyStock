@@ -154,7 +154,7 @@ public class DisplayPriceActivity extends BaseActivity {
                         }
                         // ADD huge result 20221107
                         try {
-                            String s = HttpRequest.sendGet("http://124.222.162.36:5000/news/huge", "");
+                            String s = HttpRequest.sendGet("http://124.222.86.166:5000/news/huge", "");
                             if (!Objects.equals(s, "") && default_code != 0) {
                                 // start alam
                                 tip.Ring(getApplicationContext(), 0);  // choose diff warning music;
