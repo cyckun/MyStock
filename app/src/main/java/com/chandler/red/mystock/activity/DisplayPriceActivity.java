@@ -1,5 +1,8 @@
 package com.chandler.red.mystock.activity;
 
+import static android.os.Looper.getMainLooper;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -24,7 +27,7 @@ class Alarm {
     public  void Ring(Context context, int loop) { //手机响铃
         //context 上下文
         int res = 0;
-        if (loop%2 == 0) {
+        if (loop % 2 == 0) {
             res = R.raw.soft;
         } else {
             res = R.raw.love;
@@ -49,19 +52,55 @@ class Alarm {
         //raw是新建在/res下的文件夹，ls是raw文件下mp3文件
         player.start();
         try {
-            Thread.sleep(1 * 1000);//响铃时间1s
-        } catch (Exception e) {
+            Thread.sleep(1000);//响铃时间1s
+        } catch (Exception ignored) {
         }
         player.stop();
     }
 
 }
-
 // end alarm class
 
+final class GetHuge {
+    private GetHuge() {
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
+
+    public static void getHuge(
+            Context ctx,
+            int default_btn,
+            TextView textView,
+            Alarm tip) {
+        try {
+            String s = HttpRequest.sendGet("http://124.222.86.166:5000/news/huge", "");
+            if (!Objects.equals(s, "") && default_btn != 0) {
+                // start alam
+                tip.Ring(ctx, 0);  // choose diff warning music;
+                tip.Vib(ctx);
+
+                new Handler(getMainLooper()).post(new Runnable() {   // TODO: where this func should be..
+                    @Override
+                    public void run() {
+                        textView.setText(s);
+                    }
+                });
+            }
+        }
+        catch (Exception err) {
+            // 显示异常
+            new Handler(getMainLooper()).post(new Runnable() {   // TODO: where this func should be..
+                @Override
+                public void run() {
+                    textView.setText("err in huge");
+                }
+            });
+        }
+    }
+}
 
 public class DisplayPriceActivity extends BaseActivity {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.stock_real_code)
     EditText stockcode;
 
@@ -77,23 +116,26 @@ public class DisplayPriceActivity extends BaseActivity {
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.urlcontent);
         textView.setText(message);
-        TextView testView1 = findViewById(R.id.urlcontent1); // 监控2只股票时使用 0718升级
+        TextView textView1 = findViewById(R.id.urlcontent1); // 监控2只股票时使用 0718升级
 
         Bundle bundle = getIntent().getExtras();
+        assert bundle != null;
         String stock_code = bundle.getString("stock_real_code");
+        assert stock_code != null;
         String stock_code_string = String.format(stock_code);
-        if (stock_code_string.equals("")) {    // just for test;
+        if (stock_code_string.isEmpty()) {    // just for test;
             stock_code_string = "gb_didiy"; // 默认值
         }
 
         String stock_price = bundle.getString("stock_real_price");
+        assert stock_price != null;
         String stock_price_string = String.format(stock_price);
         String stock_price_upper = bundle.getString("stock_real_price_upper");
 
         // 220718 add radiobutton 暂未生效
         int price_upper = bundle.getInt("price_upper");
         int price_base = bundle.getInt("price_base");
-        int default_code = bundle.getInt("default_code");
+        int default_radiobutton = bundle.getInt("default_code");
 
         // System.out.printf("price_base = %s", price_base);
 
@@ -107,7 +149,8 @@ public class DisplayPriceActivity extends BaseActivity {
             String[] aim_price = stock_price_string.split(";");
 
             String[] aim_price_upper;
-            if (!stock_price_upper.equals("")) {
+            assert stock_price_upper != null;
+            if (!stock_price_upper.isEmpty()) {
                 aim_price_upper = stock_price_upper.split(";");
             } else {
                 aim_price_upper = new String[2]; // 2 should upddate; 最对支持2只股票同时监控
@@ -128,7 +171,7 @@ public class DisplayPriceActivity extends BaseActivity {
 
             int finalReal_price_index = real_price_index;
             String[] finalAim_price_upper = aim_price_upper;
-            for (int k = 0; k < aim_price_upper.length; k++) finalAim_price_upper[k] = aim_price_upper[k];
+            System.arraycopy(aim_price_upper, 0, finalAim_price_upper, 0, aim_price_upper.length);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -153,37 +196,9 @@ public class DisplayPriceActivity extends BaseActivity {
                             aim_result[1] = "";
                         }
                         // ADD huge result 20221107
-                        try {
-                            String s = HttpRequest.sendGet("http://124.222.86.166:5000/news/huge", "");
-                            if (!Objects.equals(s, "") && default_code != 0) {
-                                // start alam
-                                tip.Ring(getApplicationContext(), 0);  // choose diff warning music;
-                                tip.Vib(getApplicationContext());
-
-                                // 显示代码
-                                TextView viewFinal;
-                                viewFinal = testView1;
-
-                                new Handler(getMainLooper()).post(new Runnable() {   // TODO: where this func should be..
-                                    @Override
-                                    public void run() {
-                                        viewFinal.setText(s);
-                                    }
-                                });
-                            }
-                        }
-                        catch (Exception err) {
-                            // 显示异常
-                            TextView viewFinal;
-                            viewFinal = testView1;
-                            new Handler(getMainLooper()).post(new Runnable() {   // TODO: where this func should be..
-                                @Override
-                                public void run() {
-                                    viewFinal.setText("err in huge");
-                                }
-                            });
-                        }
-
+                        // if default flag is ENABLE, enter huge warning
+                        // else, enter single code warning.
+                        GetHuge.getHuge(getApplicationContext(), default_radiobutton, textView1, tip);
                         // end huge
                         try {
                             for (int j = 0; j < aim_code.length; j++) {
@@ -222,13 +237,13 @@ public class DisplayPriceActivity extends BaseActivity {
 
                                     // show
                                     // end alarm
-                                    if (aim_result[j] =="") aim_result[j] = "no result";
+                                    if (Objects.equals(aim_result[j], "")) aim_result[j] = "no result";
                                     String finalS = "\n\n" + aim_result[j];
                                     TextView viewFinal;
                                     if ( j == 0) {
                                         viewFinal = textView;
                                     } else {
-                                        viewFinal = testView1;
+                                        viewFinal = textView1;
                                     }
                                     new Handler(getMainLooper()).post(new Runnable() {   // TODO: where this func should be..
                                         @Override
@@ -252,6 +267,5 @@ public class DisplayPriceActivity extends BaseActivity {
         } catch (Exception e) {
             textView.setText(e.toString());
         }
-        //*/
     }
 }
