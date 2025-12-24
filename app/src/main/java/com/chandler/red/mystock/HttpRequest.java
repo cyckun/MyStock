@@ -169,7 +169,7 @@ public class HttpRequest {
 
         public static void main(String[] args) {
             //发送 GET 请求
-            String s=HttpRequest.sendGet("http://124.222.86.166:5000/news/huge", "");
+            String s=HttpRequest.sendGet("http://115.190.197.225:5000/news/huge", "");
             System.out.println(s);
         }
 }
