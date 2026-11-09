@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.Main2Activity">
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/main_view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-    </android.support.v4.view.ViewPager>
+    </androidx.viewpager.widget.ViewPager>
     <View style="@style/my_divide_line_style_horizontal"/>
     <RadioGroup
         android:id="@+id/radio_group_main"

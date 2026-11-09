@@ -3,8 +3,8 @@ package com.github.jdsjlzx.ItemDecoration;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
@@ -13,7 +13,7 @@ import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
  * Adds spaces (between) between Item views.
  *
  * Supports GridLayoutManager and LinearLayoutManager. Extend this class and override the
- * {@link #getSpanLookup(android.view.View, android.support.v7.widget.RecyclerView)} method to support other
+ * {@link #getSpanLookup(android.view.View, androidx.recyclerview.widget.RecyclerView)} method to support other
  * LayoutManagers.
  *
  * Currently only supports LayoutManagers in VERTICAL orientation.

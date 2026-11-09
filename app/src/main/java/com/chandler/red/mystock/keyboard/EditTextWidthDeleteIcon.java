@@ -3,7 +3,7 @@ package com.chandler.red.mystock.keyboard;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,7 +11,7 @@ import android.view.View;
 import com.chandler.red.mystock.R;
 
 
-public class EditTextWidthDeleteIcon extends android.support.v7.widget.AppCompatEditText implements View.OnTouchListener {
+public class EditTextWidthDeleteIcon extends androidx.appcompat.widget.AppCompatEditText implements View.OnTouchListener {
     private int drawableLeftWidth, drawableTopWidth, drawableRightWidth, drawableBottomWidth;
     private int drawableLeftHeight, drawableTopHeight, drawableRightHeight, drawableBottomHeight;
     private static final String TAG = EditTextWidthDeleteIcon.class.getSimpleName();

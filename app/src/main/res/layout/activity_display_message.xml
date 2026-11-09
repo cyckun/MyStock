@@ -5,12 +5,12 @@
     android:background="@color/lightcyan"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.DisplayMessageActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.StartingWindowTheme.AppBarOverlay"/>
@@ -43,5 +43,5 @@
             app:autoSizeTextType="uniform" />
     </LinearLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 </ScrollView>

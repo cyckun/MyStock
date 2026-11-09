@@ -1,1 +1,2 @@
-include ':app', ':LRecyclerview_library', ':DragImageDemo', ':DragPhotoView'
+// 升级阶段暂不参与构建的独立 demo（仍保留旧 support 配置）：':DragImageDemo'
+include ':app', ':LRecyclerview_library', ':DragPhotoView'

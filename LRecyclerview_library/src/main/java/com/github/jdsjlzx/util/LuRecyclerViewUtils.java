@@ -1,6 +1,6 @@
 package com.github.jdsjlzx.util;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.github.jdsjlzx.recyclerview.LuRecyclerViewAdapter;

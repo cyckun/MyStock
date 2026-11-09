@@ -1,6 +1,6 @@
 package com.github.jdsjlzx.ItemDecoration;
 
-import android.support.v7.widget.GridLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 class SpanLookupFactory {
 
